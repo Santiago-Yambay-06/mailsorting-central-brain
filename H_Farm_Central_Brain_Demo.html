@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>H-Farm College Central Brain - 90/10 Automation Hub</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(150, 150, 150, 0.3); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(150, 150, 150, 0.5); }
+    .badge-student-office { background-color: rgba(59, 130, 246, 0.15); color: #38bdf8; border: 1px solid rgba(59, 130, 246, 0.3); }
+    .badge-student-life { background-color: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
+    .badge-career-service { background-color: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .badge-admissions { background-color: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+    .badge-accommodation { background-color: rgba(244, 63, 94, 0.15); color: #fb7185; border: 1px solid rgba(244, 63, 94, 0.3); }
+    .badge-cross-dept { background-color: rgba(99, 102, 241, 0.15); color: #818cf8; border: 1px solid rgba(99, 102, 241, 0.3); }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100 antialiased min-h-screen p-4 md:p-8 font-sans">
+  <div class="max-w-7xl mx-auto space-y-6">
+
+    <!-- Header & Campus Brand Banner -->
+    <header class="bg-slate-800/90 border border-slate-700 rounded-2xl p-6 shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div class="flex items-center gap-4">
+        <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-amber-500 via-orange-500 to-red-500 flex items-center justify-center font-black text-2xl text-white shadow-md shadow-orange-500/20">
+          H
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-xl md:text-2xl font-bold tracking-tight text-white">H-FARM College Central Brain</h1>
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> 90% Automation Target
+            </span>
+          </div>
+          <p class="text-sm text-slate-400 mt-0.5">
+            Single Database across <span class="font-medium text-slate-200">Student Office, Student Life, Career Service, Admissions, & Accommodation</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- 90/10 Automation Metric Gauges -->
+      <div class="flex items-center gap-3 text-xs md:text-sm">
+        <div class="bg-slate-950/60 border border-slate-700 rounded-xl px-4 py-2 text-center">
+          <div class="text-slate-400">Total Processed</div>
+          <div class="text-base font-bold text-amber-400" id="stat-total-inquiries">150</div>
+        </div>
+        <div class="bg-slate-950/60 border border-emerald-500/30 rounded-xl px-4 py-2 text-center bg-emerald-500/5">
+          <div class="text-emerald-400 font-medium">⚡ 90% Auto-Answered</div>
+          <div class="text-base font-bold text-emerald-400" id="stat-auto-resolved">90.0% (135)</div>
+        </div>
+        <div class="bg-slate-950/60 border border-rose-500/30 rounded-xl px-4 py-2 text-center bg-rose-500/5">
+          <div class="text-rose-400 font-medium">👤 10% Human Review</div>
+          <div class="text-base font-bold text-rose-400" id="stat-human-escalated">10.0% (15)</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="flex border-b border-slate-700 gap-2 pb-1 overflow-x-auto text-sm font-medium">
+      <button onclick="switchTab('simulator')" id="tab-btn-simulator" class="px-4 py-2.5 rounded-xl transition border-b-2 font-semibold border-amber-500 text-amber-400 bg-amber-500/10 flex items-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        Student Email Simulator & Auto-Responder
+      </button>
+      <button onclick="switchTab('staff')" id="tab-btn-staff" class="px-4 py-2.5 rounded-xl transition text-slate-400 hover:text-white hover:bg-slate-800 flex items-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+        10% Human Review Queue (<span id="staff-queue-count">1</span>)
+      </button>
+      <button onclick="switchTab('database')" id="tab-btn-database" class="px-4 py-2.5 rounded-xl transition text-slate-400 hover:text-white hover:bg-slate-800 flex items-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2 1.5 3 3.5 3h9c2 0 3.5-1 3.5-3V7M4 7c0-2 1.5-3 3.5-3h9c2 0 3.5 1 3.5 3M4 7h16M4 12h16"/></svg>
+        Central Knowledge Base (<span id="kb-total-count">10</span> Entries)
+      </button>
+    </nav>
+
+    <!-- TAB 1: Student Email Simulator -->
+    <div id="tab-simulator" class="space-y-6">
+
+      <!-- How 90/10 works notice -->
+      <div class="bg-gradient-to-r from-amber-500/10 via-orange-500/10 to-transparent border border-amber-500/30 rounded-xl p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 text-xs">
+        <div class="flex items-center gap-3">
+          <span class="text-2xl">🔄</span>
+          <div>
+            <strong class="text-amber-400 font-semibold text-sm">The 90/10 Workload Reduction Flywheel:</strong>
+            <p class="text-slate-300">
+              When knowledge exists in the Central Brain → <strong class="text-emerald-400">Instantly auto-replied (90%)</strong>. 
+              When a question has <em>no prior knowledge</em> → <strong class="text-rose-400">Escalated to human staff (10%)</strong>. Once the human replies, it saves to the brain so it never has to be answered manually again!
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <!-- Left: Student Email Composer & Presets -->
+        <div class="lg:col-span-5 space-y-4">
+          <div class="bg-slate-800/80 border border-slate-700 rounded-2xl p-5 shadow-sm space-y-4">
+            <div class="flex items-center justify-between">
+              <h2 class="text-base font-semibold flex items-center gap-2 text-white">
+                <span>✉️</span> Inbound Student Email
+              </h2>
+              <span class="text-xs text-slate-400">Live Simulation</span>
+            </div>
+
+            <!-- Quick Scenario Presets -->
+            <div class="space-y-2">
+              <label class="text-xs font-semibold uppercase tracking-wider text-slate-400">Test Scenarios (Auto vs. Human):</label>
+              <div class="grid grid-cols-1 gap-1.5 text-xs">
+                <!-- 90% Scenarios -->
+                <button onclick="loadScenario('famous_event')" class="text-left px-3 py-2 rounded-lg bg-slate-900/60 hover:bg-emerald-500/15 border border-slate-700 hover:border-emerald-500/50 transition">
+                  <div class="font-medium text-emerald-400 flex items-center justify-between">
+                    <span>⚡ [90% Auto] Sam Altman Keynote & Masterclass</span>
+                    <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300">Known KB</span>
+                  </div>
+                  <div class="text-slate-400 truncate">"When is the keynote and how do we register for tickets?"</div>
+                </button>
+
+                <button onclick="loadScenario('certificates')" class="text-left px-3 py-2 rounded-lg bg-slate-900/60 hover:bg-emerald-500/15 border border-slate-700 hover:border-emerald-500/50 transition">
+                  <div class="font-medium text-emerald-400 flex items-center justify-between">
+                    <span>⚡ [90% Auto] Enrollment Certificate for Transport</span>
+                    <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300">Known KB</span>
+                  </div>
+                  <div class="text-slate-400 truncate">"How to download my attendance certificate for bus pass?"</div>
+                </button>
+
+                <button onclick="loadScenario('cross_internship_housing')" class="text-left px-3 py-2 rounded-lg bg-slate-900/60 hover:bg-emerald-500/15 border border-slate-700 hover:border-emerald-500/50 transition">
+                  <div class="font-medium text-emerald-400 flex items-center justify-between">
+                    <span>⚡ [90% Auto] Cross-Dept (Internship + Dorm Lease)</span>
+                    <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300">Known KB</span>
+                  </div>
+                  <div class="text-slate-400 truncate">"Internship in Milan: Can I cancel campus dorm contract early?"</div>
+                </button>
+
+                <!-- 10% Zero Knowledge Scenario -->
+                <button onclick="loadScenario('unknown_question')" class="text-left px-3 py-2 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/40 hover:border-rose-500 transition">
+                  <div class="font-medium text-rose-400 flex items-center justify-between">
+                    <span>👤 [10% Human] Zero-Knowledge Question (Novel Inquiry)</span>
+                    <span class="text-[10px] px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-300">No Prior Data</span>
+                  </div>
+                  <div class="text-slate-400 truncate">"Can I charge my electric scooter inside the college library?"</div>
+                </button>
+              </div>
+            </div>
+
+            <!-- Email Inputs Form -->
+            <div class="space-y-3 pt-2 border-t border-slate-700">
+              <div>
+                <label class="block text-xs font-medium text-slate-400 mb-1">Student Sender</label>
+                <div class="grid grid-cols-2 gap-2">
+                  <input id="input-sender-name" type="text" value="Matteo Rossi" class="w-full text-xs bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 focus:outline-none focus:border-amber-500 text-white" placeholder="Student Name">
+                  <input id="input-sender-email" type="email" value="m.rossi@student.h-farm.com" class="w-full text-xs bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 focus:outline-none focus:border-amber-500 text-white" placeholder="Student Email">
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-medium text-slate-400 mb-1">Recipient</label>
+                <input type="text" readonly value="support@h-farm.com (All 5 College Departments)" class="w-full text-xs bg-slate-950/50 border border-slate-700 rounded-lg px-3 py-2 text-slate-400 cursor-not-allowed">
+              </div>
+
+              <div>
+                <label class="block text-xs font-medium text-slate-400 mb-1">Subject</label>
+                <input id="input-subject" type="text" value="Question about the upcoming event with Sam Altman" class="w-full text-xs bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 focus:outline-none focus:border-amber-500 text-white font-medium">
+              </div>
+
+              <div>
+                <label class="block text-xs font-medium text-slate-400 mb-1">Email Body / Student Question</label>
+                <textarea id="input-body" rows="4" class="w-full text-xs bg-slate-900 border border-slate-700 rounded-lg p-3 focus:outline-none focus:border-amber-500 text-white leading-relaxed" placeholder="Type what the student is asking...">Hi Student Office, I saw on Instagram that Sam Altman is visiting H-Farm campus for a conference soon. Could you tell me when the event is happening, what time it starts, and where we need to register to get entry tickets?</textarea>
+              </div>
+
+              <button onclick="processStudentEmail()" id="btn-process" class="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 font-semibold text-sm text-white shadow-md shadow-orange-500/20 transition flex items-center justify-center gap-2">
+                <span>⚡ Test Central Brain Triage</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Real-time Central Brain Pipeline & Automated Response -->
+        <div class="lg:col-span-7 space-y-4">
+
+          <!-- Processing Breakdown Card -->
+          <div class="bg-slate-800/80 border border-slate-700 rounded-2xl p-5 shadow-sm space-y-4">
+            <div class="flex items-center justify-between">
+              <h2 class="text-base font-semibold flex items-center gap-2 text-white">
+                <span>🧠</span> Central Brain Decision & Routing Engine
+              </h2>
+              <span id="pipeline-status-badge" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                ⚡ 90% Autonomous Path Active
+              </span>
+            </div>
+
+            <!-- Steps Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+              <!-- Step 1: Department Classification -->
+              <div class="bg-slate-900/60 border border-slate-700 rounded-xl p-3 space-y-1">
+                <div class="text-slate-400 font-medium">1. Department Routing</div>
+                <div id="step-dept" class="font-bold text-sm text-purple-400">Student Life</div>
+                <div id="step-dept-sub" class="text-[11px] text-slate-400">Guest Events & Campus Talks</div>
+              </div>
+
+              <!-- Step 2: Knowledge Retrieval -->
+              <div class="bg-slate-900/60 border border-slate-700 rounded-xl p-3 space-y-1">
+                <div class="text-slate-400 font-medium">2. Database Knowledge Match</div>
+                <div id="step-knowledge-source" class="font-bold text-sm text-amber-400">KB-SL-01: Altman Keynote</div>
+                <div id="step-knowledge-type" class="text-[11px] text-emerald-400">Verified Answer Present in DB</div>
+              </div>
+
+              <!-- Step 3: Confidence Score & Action -->
+              <div class="bg-slate-900/60 border border-slate-700 rounded-xl p-3 space-y-1">
+                <div class="text-slate-400 font-medium">3. Triage Result</div>
+                <div id="step-confidence" class="font-bold text-sm text-emerald-400">96% Confidence (Known)</div>
+                <div id="step-action" class="text-[11px] text-emerald-400 font-medium">Automated Response Dispatched</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Outbound Auto-Generated Response Display -->
+          <div class="bg-slate-800/80 border border-slate-700 rounded-2xl p-5 shadow-sm space-y-3">
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-semibold flex items-center gap-2 text-white">
+                <span id="response-icon">📬</span> <span id="response-title">Dispatched Automated Email to Student</span>
+              </h3>
+              <span id="response-timestamp" class="text-xs text-slate-400">Just now</span>
+            </div>
+
+            <div id="outbound-container" class="bg-slate-950 border border-slate-700 rounded-xl p-4 text-xs space-y-3">
+              <div class="border-b border-slate-700 pb-2 space-y-1 text-slate-400">
+                <div><strong class="text-slate-200">From:</strong> H-FARM College Student Services &lt;support@h-farm.com&gt;</div>
+                <div><strong class="text-slate-200">To:</strong> <span id="outbound-to">Matteo Rossi &lt;m.rossi@student.h-farm.com&gt;</span></div>
+                <div><strong class="text-slate-200">Subject:</strong> <span id="outbound-subject">Re: Question about the upcoming event with Sam Altman</span></div>
+              </div>
+
+              <div id="outbound-body" class="whitespace-pre-line text-slate-200 leading-relaxed font-sans">
+Dear Matteo,
+
+Thank you for reaching out to H-FARM College!
+
+We are thrilled to confirm that **Sam Altman** (CEO of OpenAI) together with **Federico Marchetti** (Founder of YOOX NET-A-PORTER and H-FARM Advisory Board member) will deliver an exclusive keynote and masterclass on campus.
+
+Here are the confirmed event details:
+• **Date:** Friday, November 14, 2026
+• **Time:** 17:30 – 19:30 (Doors open at 17:00, please arrive early for badge check)
+• **Location:** The Big Hall (Red Greenhouse), H-FARM Campus
+• **Registration & Access:** Free for all registered H-FARM College students. You can claim your student ticket via the **H-FARM Campus App** under "Campus Life > Keynote Series". A valid student QR code is required at the entrance.
+
+If you have any questions regarding guest seating or special access, feel free to reply directly to this email or reach the Student Life team.
+
+Warm regards,  
+**H-FARM College Automated Service**  
+*(Cross-Department Knowledge Hub: Student Life subdivision)*
+              </div>
+
+              <!-- Automated Safety Disclaimer -->
+              <div id="outbound-footer-notice" class="pt-2 border-t border-slate-700 text-[11px] text-slate-400 flex items-center justify-between">
+                <span>🔒 Handled 100% autonomously by Central Brain</span>
+                <span class="text-emerald-400 font-medium">✓ Zero human effort required</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: 10% Human Review Queue -->
+    <div id="tab-staff" class="hidden space-y-6">
+      <div class="bg-slate-800/80 border border-slate-700 rounded-2xl p-6 shadow-sm space-y-5">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-lg font-bold flex items-center gap-2 text-white">
+              <span>👤</span> 10% Escalation Queue: Zero-Knowledge Cases
+            </h2>
+            <p class="text-sm text-slate-400">
+              Only incoming emails with <strong class="text-rose-400">zero knowledge in the database</strong> arrive here. An advisor answers once, and it is stored permanently in the Central Brain.
+            </p>
+          </div>
+          <span class="text-xs bg-rose-500/20 text-rose-400 border border-rose-500/30 px-3 py-1 rounded-full font-semibold">
+            Human Advisor Review
+          </span>
+        </div>
+
+        <!-- Tickets List -->
+        <div id="escalation-tickets-container" class="space-y-4">
+          <!-- Rendered via JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: Central Knowledge Base -->
+    <div id="tab-database" class="hidden space-y-6">
+      <div class="bg-slate-800/80 border border-slate-700 rounded-2xl p-6 shadow-sm space-y-5">
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div>
+            <h2 class="text-lg font-bold text-white">Single Unified Knowledge Base (Central Brain)</h2>
+            <p class="text-sm text-slate-400">
+              Shared source of truth across all 5 departments. Every answer approved by staff expands this list.
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <input id="kb-search-input" onkeyup="filterKB()" type="text" placeholder="Search knowledge..." class="text-xs bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-500 w-60">
+            <button onclick="openAddEntryModal()" class="px-3 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-medium text-xs flex items-center gap-1.5 transition">
+              <span>+</span> Add Policy
+            </button>
+          </div>
+        </div>
+
+        <!-- Department Filter Pills -->
+        <div class="flex flex-wrap gap-2 text-xs">
+          <button onclick="setDeptFilter('ALL')" id="filter-pill-ALL" class="px-3 py-1.5 rounded-lg bg-amber-500 text-white font-medium">All Departments</button>
+          <button onclick="setDeptFilter('STUDENT_LIFE')" id="filter-pill-STUDENT_LIFE" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-purple-400 hover:bg-purple-500/10">Student Life</button>
+          <button onclick="setDeptFilter('STUDENT_OFFICE')" id="filter-pill-STUDENT_OFFICE" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-blue-400 hover:bg-blue-500/10">Student Office</button>
+          <button onclick="setDeptFilter('CAREER_SERVICE')" id="filter-pill-CAREER_SERVICE" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-emerald-400 hover:bg-emerald-500/10">Career Service</button>
+          <button onclick="setDeptFilter('ACCOMMODATION')" id="filter-pill-ACCOMMODATION" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-rose-400 hover:bg-rose-500/10">Accommodation</button>
+          <button onclick="setDeptFilter('ADMISSIONS')" id="filter-pill-ADMISSIONS" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-amber-400 hover:bg-amber-500/10">Admissions</button>
+        </div>
+
+        <!-- Table of Knowledge Items -->
+        <div class="overflow-x-auto rounded-xl border border-slate-700">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-950 text-slate-400 uppercase font-semibold border-b border-slate-700">
+              <tr>
+                <th class="p-3">ID & Dept</th>
+                <th class="p-3">Topic / Student Question Pattern</th>
+                <th class="p-3">Canonical Verified Answer</th>
+                <th class="p-3">Cross-Dept Links</th>
+                <th class="p-3">Status</th>
+              </tr>
+            </thead>
+            <tbody id="kb-table-body" class="divide-y divide-slate-700">
+              <!-- Dynamically rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Modal for Adding Knowledge Entry -->
+  <div id="modal-add-entry" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
+    <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl">
+      <div class="flex items-center justify-between">
+        <h3 class="font-bold text-base text-white">+ Add Knowledge Entry</h3>
+        <button onclick="closeAddEntryModal()" class="text-slate-400 hover:text-white">&times;</button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="block text-slate-400 mb-1">Department</label>
+          <select id="modal-dept" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white">
+            <option value="STUDENT_OFFICE">Student Office</option>
+            <option value="STUDENT_LIFE">Student Life</option>
+            <option value="CAREER_SERVICE">Career Service</option>
+            <option value="ADMISSIONS">Admissions</option>
+            <option value="ACCOMMODATION">Accommodation</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-slate-400 mb-1">Question / Topic Pattern</label>
+          <input id="modal-topic" type="text" placeholder="e.g. Lost campus badge replacement" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white">
+        </div>
+
+        <div>
+          <label class="block text-slate-400 mb-1">Official Canonical Answer</label>
+          <textarea id="modal-answer" rows="4" placeholder="Detailed response policy..." class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-white"></textarea>
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-2 pt-3 border-t border-slate-700">
+        <button onclick="closeAddEntryModal()" class="px-4 py-2 rounded-xl border border-slate-700 text-xs text-slate-400 hover:bg-slate-700">Cancel</button>
+        <button onclick="saveNewEntry()" class="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-medium text-xs">Save to Central Brain</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Master Unified Knowledge Base (Single Database Model)
+    let knowledgeBase = [
+      {
+        id: "KB-SL-01",
+        dept: "STUDENT_LIFE",
+        topic: "Sam Altman & Federico Marchetti Keynote & Masterclass",
+        keywords: ["sam altman", "keynote", "famous", "marchetti", "guest", "talk", "conference", "tickets", "november 14"],
+        answer: "We are thrilled to confirm that Sam Altman (CEO of OpenAI) together with Federico Marchetti (Founder of YOOX NET-A-PORTER) will deliver an exclusive keynote on 'The Future of AI & Global Entrepreneurship' on Friday, November 14, 2026, from 17:30 to 19:30 at The Big Hall (Red Greenhouse), H-FARM Campus. Admission is free for all registered H-FARM College students. Please reserve your seat via the H-FARM Campus App under 'Campus Life > Keynotes'. QR code badge check begins at 17:00.",
+        crossDept: ["Student Life"],
+        autoReply: true,
+        confidence: 0.96
+      },
+      {
+        id: "KB-SL-02",
+        dept: "STUDENT_LIFE",
+        topic: "Weekly Campus Padel Tournament & Sunset Social BBQ",
+        keywords: ["padel", "event", "next event", "sports", "social", "bbq", "thursday", "tournament", "everyday"],
+        answer: "The next campus sports event is our weekly H-FARM Padel Tournament and Sunset Social BBQ happening every Thursday starting at 18:00 at the Sports Hub! Free racket rental is available at the welcome desk. Drinks and BBQ food tokens can be acquired on site. You can register your team of two on the H-FARM Sports portal or simply drop by for the social networking session.",
+        crossDept: ["Student Life"],
+        autoReply: true,
+        confidence: 0.94
+      },
+      {
+        id: "KB-SO-01",
+        dept: "STUDENT_OFFICE",
+        topic: "Enrollment & Attendance Certificate Download",
+        keywords: ["certificate", "enrollment", "attendance", "bus pass", "transport", "download", "train", "tax"],
+        answer: "You can download official digital certificates (Enrollment Certificate, Attendance Certificate, and CFU Transcript) instantly in multilingual PDF format. Log into the Student Portal (Esse3) -> My Profile -> Certificates -> Select 'Enrollment with Full Academic Record'. The PDF is digitally signed with an official cryptographic stamp (Timbro Digitale) accepted by public transport authorities, embassies, and family tax filing.",
+        crossDept: ["Student Office"],
+        autoReply: true,
+        confidence: 0.97
+      },
+      {
+        id: "KB-SO-02",
+        dept: "STUDENT_OFFICE",
+        topic: "Winter Exam Session Registration Window",
+        keywords: ["exam", "session", "registration", "deadline", "winter", "grades", "appeal"],
+        answer: "Registration for the upcoming Winter Exam Session opens on November 20, 2026, and closes strictly 5 days prior to each respective exam date. Registrations must be submitted via the Esse3 Student Portal. If you have pending tuition fees or missing attendance signatures, please settle them before November 18 to prevent portal registration lock.",
+        crossDept: ["Student Office"],
+        autoReply: true,
+        confidence: 0.93
+      },
+      {
+        id: "KB-CS-01",
+        dept: "CAREER_SERVICE",
+        topic: "Curricular Internship Activation & CFU Credits",
+        keywords: ["internship", "stage", "cfu", "credits", "progetto formativo", "agreement", "activate"],
+        answer: "To activate an official curricular internship for college credits (CFU), you must submit your 'Progetto Formativo' (Training Agreement) signed by your host company at least 15 business days before your target start date. Submit the document via the Career Portal. Once approved by the Academic Internship Tutor, an insurance certificate will be automatically issued.",
+        crossDept: ["Career Service"],
+        autoReply: true,
+        confidence: 0.92
+      },
+      {
+        id: "KB-CS-02",
+        dept: "CAREER_SERVICE",
+        topic: "Fall Career Days 2026 Company Meetups",
+        keywords: ["career days", "job fair", "companies", "interviews", "cv", "recruiting", "october 29"],
+        answer: "The H-FARM Fall Career Days will take place on October 29-30 at the Welcome Center. Over 45 tech, design, and venture capital partners (including B-Corp innovators and international tech leaders) will conduct 1-on-1 coffee chats and screening interviews. Upload your updated CV to the Career Service database before October 25 to be shortlisted.",
+        crossDept: ["Career Service"],
+        autoReply: true,
+        confidence: 0.95
+      },
+      {
+        id: "KB-AC-01",
+        dept: "ACCOMMODATION",
+        topic: "Dorm Check-In, Quiet Hours, and Guest Policy",
+        keywords: ["dorm", "housing", "quiet hours", "guest", "room", "student housing", "rules"],
+        answer: "Campus Student Housing (Ground & Tower residences) operates with mandatory quiet hours from 23:00 to 07:00 daily to respect all residents. External guests are permitted between 09:00 and 22:30 provided they are signed in at the Accommodation Desk with a valid photo ID. Overnight guest passes must be requested at least 48 hours in advance via accommodation@h-farm.com.",
+        crossDept: ["Accommodation"],
+        autoReply: true,
+        confidence: 0.94
+      },
+      {
+        id: "KB-AC-02",
+        dept: "ACCOMMODATION",
+        topic: "Early Housing Lease Termination for Off-Campus Internships",
+        keywords: ["terminate dorm", "cancel lease", "internship in milan", "leave housing early", "deposit", "move out"],
+        answer: "Students who secure an approved full-time curricular internship located more than 50km from H-FARM Campus (e.g. in Milan, Rome, or abroad) are eligible for early lease release without penalty. You must provide: 1) Approved Career Service Progetto Formativo, and 2) A 30-day written notice to accommodation@h-farm.com. Your security deposit will be refunded within 14 days following the checkout room inspection.",
+        crossDept: ["Career Service", "Accommodation"],
+        autoReply: true,
+        confidence: 0.91
+      },
+      {
+        id: "KB-AD-01",
+        dept: "ADMISSIONS",
+        topic: "Spring 2027 Intake Application Deadlines & Requirements",
+        keywords: ["admissions", "apply", "intake", "spring 2027", "deadlines", "english", "ielts", "requirements"],
+        answer: "Applications for the Spring 2027 intake are currently open! The Early-Bird evaluation deadline is December 1, 2026. Applicants must submit their high school / undergraduate transcript, a motivational statement or portfolio, and proof of English proficiency (IELTS 6.0, TOEFL 80, or H-FARM online language evaluation). Shortlisted candidates will be invited for an admission interview within 7 working days.",
+        crossDept: ["Admissions"],
+        autoReply: true,
+        confidence: 0.95
+      },
+      {
+        id: "KB-AD-02",
+        dept: "ADMISSIONS",
+        topic: "Tuition Installments & Payment Methods",
+        keywords: ["tuition", "fees", "pagopa", "installments", "payment", "bank transfer", "second installment"],
+        answer: "Academic year tuition is divided into three installments: 1st at enrollment, 2nd due on January 15, and 3rd due on April 30. Payments must be executed via PagoPA or direct wire transfer quoting your Student ID (Matricola) in the payment reference. Late payments after the 5-day grace period incur a standard €50 administrative fee.",
+        crossDept: ["Admissions", "Student Office"],
+        autoReply: true,
+        confidence: 0.93
+      }
+    ];
+
+    // Escalation tickets queue for 10% human review
+    let escalationQueue = [
+      {
+        id: "ESC-8941",
+        studentName: "Giulia Bianchi",
+        studentEmail: "g.bianchi@student.h-farm.com",
+        subject: "Medical condition and request for tuition fee extension",
+        body: "Dear Student Office, my family has faced an unexpected medical emergency this month, which has impacted our ability to pay the second tuition installment by January 15th. Is there any hardship waiver or installment plan available?",
+        detectedDept: "Admissions & Student Office",
+        confidence: 0.38,
+        reason: "Zero pre-approved policy found in DB for this hardship exception.",
+        suggestedDraft: "Dear Giulia,\n\nWe have received your request and completely understand the difficult situation. H-FARM College maintains a Student Welfare Hardship Committee for unexpected family emergencies. We have placed a temporary administrative hold on your tuition deadline so no late fees are incurred. Please reply to this email with any supporting medical or financial notes so our Academic Secretary can schedule a confidential review meeting.\n\nWarm regards,\nStudent Welfare & Admissions Office",
+        status: "PENDING_STAFF_APPROVAL"
+      }
+    ];
+
+    let totalInquiries = 150;
+    let autoResolved = 135;
+    let humanEscalated = 15;
+    let currentDeptFilter = "ALL";
+
+    // Preloaded Scenarios for User Testing
+    const scenarios = {
+      famous_event: {
+        name: "Matteo Rossi",
+        email: "m.rossi@student.h-farm.com",
+        subject: "Question about the upcoming event with Sam Altman",
+        body: "Hi Student Office, I saw on Instagram that Sam Altman is visiting H-Farm campus for a conference soon. Could you tell me when the event is happening, what time it starts, and where we need to register to get entry tickets?"
+      },
+      certificates: {
+        name: "Luca Fontana",
+        email: "l.fontana@student.h-farm.com",
+        subject: "Official enrollment certificate for annual train pass",
+        body: "Hello! I need an official enrollment and attendance certificate to submit to Trenitalia for my student annual pass discount. Where and how can I get this document?"
+      },
+      cross_internship_housing: {
+        name: "Sofia Conti",
+        email: "s.conti@student.h-farm.com",
+        subject: "Internship in Milan - Early dorm contract cancellation",
+        body: "Dear teams, Career Service just notified me that I was selected for a 6-month internship in Milan starting February. Since I live in the campus Tower dorm, can I terminate my accommodation lease early without losing my security deposit?"
+      },
+      unknown_question: {
+        name: "Davide Ricci",
+        email: "d.ricci@student.h-farm.com",
+        subject: "Electric scooter charging inside campus library",
+        body: "Hello, is it permitted to bring my private electric scooter inside the library study halls to charge it while I study, or are there specific outdoor charging stations?"
+      }
+    };
+
+    function loadScenario(key) {
+      const s = scenarios[key];
+      if (!s) return;
+      document.getElementById('input-sender-name').value = s.name;
+      document.getElementById('input-sender-email').value = s.email;
+      document.getElementById('input-subject').value = s.subject;
+      document.getElementById('input-body').value = s.body;
+      processStudentEmail();
+    }
+
+    // Central Brain Processing Logic
+    function processStudentEmail() {
+      const name = document.getElementById('input-sender-name').value.trim() || "Student";
+      const email = document.getElementById('input-sender-email').value.trim() || "student@h-farm.com";
+      const subject = document.getElementById('input-subject').value.trim();
+      const body = document.getElementById('input-body').value.trim();
+
+      const combinedText = (subject + " " + body).toLowerCase();
+
+      // UI visual feedback
+      const btn = document.getElementById('btn-process');
+      btn.innerHTML = `<span>⏳ Searching Central Database...</span>`;
+      btn.disabled = true;
+
+      setTimeout(() => {
+        btn.innerHTML = `<span>⚡ Test Central Brain Triage</span>`;
+        btn.disabled = false;
+
+        // Find best match in knowledge base
+        let bestMatch = null;
+        let highestScore = 0;
+
+        for (const item of knowledgeBase) {
+          let score = 0;
+          for (const kw of item.keywords) {
+            if (combinedText.includes(kw)) {
+              score += 1.5;
+            }
+          }
+          if (score > highestScore) {
+            highestScore = score;
+            bestMatch = item;
+          }
+        }
+
+        totalInquiries++;
+        document.getElementById('stat-total-inquiries').innerText = totalInquiries;
+
+        const timestampStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        document.getElementById('response-timestamp').innerText = `Processed at ${timestampStr}`;
+        document.getElementById('outbound-to').innerText = `${name} <${email}>`;
+        document.getElementById('outbound-subject').innerText = `Re: ${subject}`;
+
+        // Decision rule: If highestScore >= 1.2, knowledge exists -> 90% auto-reply!
+        // If highestScore < 1.2 -> NO KNOWLEDGE FOUND -> 10% human escalation!
+        if (!bestMatch || highestScore < 1.2) {
+          humanEscalated++;
+          updateRatioMetrics();
+          handleZeroKnowledgeEscalation(name, email, subject, body);
+        } else {
+          autoResolved++;
+          updateRatioMetrics();
+          handleAutoResponse(name, email, subject, bestMatch);
+        }
+      }, 300);
+    }
+
+    function updateRatioMetrics() {
+      const autoPct = ((autoResolved / totalInquiries) * 100).toFixed(1);
+      const humanPct = ((humanEscalated / totalInquiries) * 100).toFixed(1);
+      document.getElementById('stat-auto-resolved').innerText = `${autoPct}% (${autoResolved})`;
+      document.getElementById('stat-human-escalated').innerText = `${humanPct}% (${humanEscalated})`;
+    }
+
+    function handleAutoResponse(name, email, subject, match) {
+      document.getElementById('pipeline-status-badge').className = "px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30";
+      document.getElementById('pipeline-status-badge').innerText = "⚡ 90% Autonomous Path (Knowledge Found)";
+
+      const deptLabel = match.crossDept.length > 1 
+        ? match.crossDept.join(" + ") + " (Cross-Dept)" 
+        : match.dept.replace("_", " ");
+      
+      document.getElementById('step-dept').innerText = deptLabel;
+      document.getElementById('step-dept-sub').innerText = `Primary: ${match.dept}`;
+
+      document.getElementById('step-knowledge-source').innerText = `${match.id}: ${match.topic.substring(0, 24)}...`;
+      document.getElementById('step-knowledge-type').innerText = "Verified in Central DB ✓";
+      document.getElementById('step-knowledge-type').className = "text-[11px] text-emerald-400 font-medium";
+
+      const scorePct = Math.round(match.confidence * 100);
+      document.getElementById('step-confidence').innerText = `${scorePct}% (Match Found)`;
+      document.getElementById('step-confidence').className = "font-bold text-sm text-emerald-400";
+      document.getElementById('step-action').innerText = "Automated Response Dispatched";
+      document.getElementById('step-action').className = "text-[11px] text-emerald-400 font-medium";
+
+      // Formulate response
+      const greeting = `Dear ${name.split(" ")[0]},\n\nThank you for reaching out to H-FARM College!\n\n`;
+      const bodyContent = match.answer;
+      const signature = `\n\nIf you have any further questions, you can reply directly to this email to connect with a member of the ${deptLabel} team.\n\nWarm regards,\nH-FARM College Automated Service\n(Cross-Department Knowledge Hub)`;
+
+      document.getElementById('response-icon').innerText = "📬";
+      document.getElementById('response-title').innerText = "Dispatched Automated Email to Student";
+      document.getElementById('outbound-body').innerText = greeting + bodyContent + signature;
+      document.getElementById('outbound-footer-notice').innerHTML = `
+        <span>🔒 Handled 100% autonomously by Central Brain</span>
+        <span class="text-emerald-400 font-medium">✓ Zero human effort required</span>
+      `;
+    }
+
+    function handleZeroKnowledgeEscalation(name, email, subject, body) {
+      document.getElementById('pipeline-status-badge').className = "px-2.5 py-0.5 rounded-full text-xs font-semibold bg-rose-500/20 text-rose-400 border border-rose-500/30";
+      document.getElementById('pipeline-status-badge').innerText = "👤 10% Human Path (No Prior Knowledge)";
+
+      document.getElementById('step-dept').innerText = "Student Office";
+      document.getElementById('step-dept-sub').innerText = "Pending Human Response";
+
+      document.getElementById('step-knowledge-source').innerText = "Zero Match in Central DB";
+      document.getElementById('step-knowledge-type').innerText = "New / Unseen Question";
+      document.getElementById('step-knowledge-type').className = "text-[11px] text-rose-400 font-medium";
+
+      document.getElementById('step-confidence').innerText = "0% (Unknown to Bot)";
+      document.getElementById('step-confidence').className = "font-bold text-sm text-rose-400";
+      document.getElementById('step-action').innerText = "Sent to Staff Queue";
+      document.getElementById('step-action').className = "text-[11px] text-rose-400 font-medium";
+
+      // Simulated auto-acknowledgement email to the student
+      const ackText = `Dear ${name.split(" ")[0]},\n\nThank you for contacting H-FARM College.\n\nWe have received your question regarding "${subject}". Because this is a specific or newly introduced inquiry not yet recorded in our automated guide, your email has been routed to our Student Office team for personal review. A human advisor will answer your message directly within 24 hours.\n\nKind regards,\nH-FARM College Student Services`;
+
+      document.getElementById('response-icon').innerText = "⏳";
+      document.getElementById('response-title').innerText = "Auto-Receipt Dispatched (Awaiting Staff)";
+      document.getElementById('outbound-body').innerText = ackText;
+      document.getElementById('outbound-footer-notice').innerHTML = `
+        <span class="text-rose-400 font-medium">⚠️ No matching knowledge found in Central DB</span>
+        <a href="javascript:switchTab('staff')" class="text-amber-400 underline font-medium">Review in Staff Queue →</a>
+      `;
+
+      // Add to escalation queue
+      const newTicketId = "ESC-" + Math.floor(1000 + Math.random() * 9000);
+      escalationQueue.unshift({
+        id: newTicketId,
+        studentName: name,
+        studentEmail: email,
+        subject: subject,
+        body: body,
+        detectedDept: "Student Office",
+        confidence: 0.15,
+        reason: "No knowledge entry matched this inquiry in the central database.",
+        suggestedDraft: `Dear ${name.split(" ")[0]},\n\nRegarding your question about electric scooters: For safety and fire prevention regulations, personal electric scooters cannot be brought or charged inside campus library study areas. However, covered outdoor charging racks are available right next to the Library entrance and at the Sports Hub.\n\nBest regards,\nH-FARM Student Office`,
+        status: "PENDING_STAFF_APPROVAL"
+      });
+
+      renderEscalationQueue();
+    }
+
+    // Switch between UI Tabs
+    function switchTab(tabId) {
+      document.getElementById('tab-simulator').classList.add('hidden');
+      document.getElementById('tab-database').classList.add('hidden');
+      document.getElementById('tab-staff').classList.add('hidden');
+
+      const tabs = ['simulator', 'database', 'staff'];
+      tabs.forEach(t => {
+        const btn = document.getElementById(`tab-btn-${t}`);
+        btn.className = "px-4 py-2.5 rounded-xl transition text-slate-400 hover:text-white hover:bg-slate-800 flex items-center gap-2";
+      });
+
+      document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+      const activeBtn = document.getElementById(`tab-btn-${tabId}`);
+      activeBtn.className = "px-4 py-2.5 rounded-xl transition border-b-2 font-semibold border-amber-500 text-amber-400 bg-amber-500/10 flex items-center gap-2";
+
+      if (tabId === 'database') renderKnowledgeTable();
+      if (tabId === 'staff') renderEscalationQueue();
+    }
+
+    // Render Knowledge Table
+    function renderKnowledgeTable() {
+      const tbody = document.getElementById('kb-table-body');
+      tbody.innerHTML = '';
+      document.getElementById('kb-total-count').innerText = knowledgeBase.length;
+
+      const query = (document.getElementById('kb-search-input')?.value || '').toLowerCase();
+
+      const filtered = knowledgeBase.filter(item => {
+        const matchesDept = currentDeptFilter === 'ALL' || item.dept === currentDeptFilter;
+        const matchesQuery = !query || item.topic.toLowerCase().includes(query) || item.answer.toLowerCase().includes(query);
+        return matchesDept && matchesQuery;
+      });
+
+      filtered.forEach(item => {
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-900/40 transition";
+
+        let badgeClass = "badge-student-office";
+        if (item.dept === 'STUDENT_LIFE') badgeClass = "badge-student-life";
+        if (item.dept === 'CAREER_SERVICE') badgeClass = "badge-career-service";
+        if (item.dept === 'ACCOMMODATION') badgeClass = "badge-accommodation";
+        if (item.dept === 'ADMISSIONS') badgeClass = "badge-admissions";
+
+        const crossDeptBadges = item.crossDept.map(d => `<span class="px-2 py-0.5 rounded text-[10px] font-medium badge-cross-dept">${d}</span>`).join(' ');
+
+        tr.innerHTML = `
+          <td class="p-3 align-top whitespace-nowrap">
+            <div class="font-mono font-bold text-slate-100">${item.id}</div>
+            <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold mt-1 ${badgeClass}">${item.dept.replace("_", " ")}</span>
+          </td>
+          <td class="p-3 align-top font-semibold text-slate-100 max-w-xs">
+            ${item.topic}
+            <div class="text-[10px] text-slate-400 font-normal mt-0.5">Keywords: ${item.keywords.slice(0, 4).join(', ')}...</div>
+          </td>
+          <td class="p-3 align-top text-slate-300 leading-relaxed max-w-md">
+            ${item.answer}
+          </td>
+          <td class="p-3 align-top whitespace-nowrap">
+            ${crossDeptBadges}
+          </td>
+          <td class="p-3 align-top whitespace-nowrap">
+            <span class="px-2 py-1 rounded-md text-[10px] font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+              ⚡ 90% Auto-Eligible
+            </span>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function setDeptFilter(dept) {
+      currentDeptFilter = dept;
+      const pills = ['ALL', 'STUDENT_LIFE', 'STUDENT_OFFICE', 'CAREER_SERVICE', 'ACCOMMODATION', 'ADMISSIONS'];
+      pills.forEach(p => {
+        const btn = document.getElementById(`filter-pill-${p}`);
+        if (!btn) return;
+        if (p === dept) {
+          btn.className = "px-3 py-1.5 rounded-lg bg-amber-500 text-white font-medium";
+        } else {
+          btn.className = "px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-slate-400 hover:bg-slate-800";
+        }
+      });
+      renderKnowledgeTable();
+    }
+
+    function filterKB() {
+      renderKnowledgeTable();
+    }
+
+    // Render Escalation Queue
+    function renderEscalationQueue() {
+      const container = document.getElementById('escalation-tickets-container');
+      const countEl = document.getElementById('staff-queue-count');
+      countEl.innerText = escalationQueue.length;
+
+      if (escalationQueue.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-12 text-slate-400 bg-slate-950/40 rounded-xl border border-slate-700">
+            <div class="text-3xl mb-2">🎉</div>
+            <div class="font-semibold text-base text-slate-100">All student emails answered!</div>
+            <div class="text-xs">No unhandled inquiries are pending human review.</div>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = escalationQueue.map((ticket, idx) => `
+        <div class="bg-slate-900/90 border border-slate-700 rounded-xl p-5 space-y-4">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 border-b border-slate-700 pb-3">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="font-mono text-xs font-bold text-amber-400">${ticket.id}</span>
+                <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-rose-500/20 text-rose-400 border border-rose-500/30">10% Human Review Needed</span>
+                <span class="text-xs text-slate-400">Routed to: <strong class="text-slate-200">${ticket.detectedDept}</strong></span>
+              </div>
+              <h3 class="font-bold text-sm text-white mt-1">${ticket.subject}</h3>
+              <p class="text-xs text-slate-400">From: ${ticket.studentName} &lt;${ticket.studentEmail}&gt;</p>
+            </div>
+            <div class="text-right">
+              <span class="text-xs font-medium text-rose-400">Reason: Zero Knowledge in DB</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+            <div class="bg-slate-800/70 p-3 rounded-xl border border-slate-700 space-y-1">
+              <div class="text-slate-400 font-semibold uppercase tracking-wider text-[10px]">Student's New Question:</div>
+              <p class="text-slate-200 leading-relaxed italic">"${ticket.body}"</p>
+            </div>
+
+            <div class="bg-slate-800/70 p-3 rounded-xl border border-slate-700 space-y-1">
+              <div class="text-slate-400 font-semibold uppercase tracking-wider text-[10px] flex items-center justify-between">
+                <span>Human Advisor's Official Reply:</span>
+                <span class="text-emerald-400 font-medium">Edit as needed</span>
+              </div>
+              <textarea id="draft-reply-${idx}" rows="5" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-xs text-slate-200 leading-relaxed focus:outline-none focus:border-amber-500">${ticket.suggestedDraft}</textarea>
+            </div>
+          </div>
+
+          <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 pt-2">
+            <div class="flex items-center gap-2 text-xs">
+              <input type="checkbox" id="add-to-kb-${idx}" checked class="rounded border-slate-700 text-amber-500 focus:ring-0">
+              <label for="add-to-kb-${idx}" class="text-amber-400 font-semibold text-xs">
+                ⭐ Save this answer into the Central Brain (Future students asking this will be 100% auto-answered!)
+              </label>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="approveTicket(${idx})" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs shadow-md transition flex items-center gap-1.5">
+                <span>✓</span> Send Reply & Permanently Teach Bot
+              </button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function approveTicket(idx) {
+      const ticket = escalationQueue[idx];
+      const editedReply = document.getElementById(`draft-reply-${idx}`).value;
+      const shouldSaveToKB = document.getElementById(`add-to-kb-${idx}`).checked;
+
+      if (shouldSaveToKB) {
+        const keywords = (ticket.subject + " electric scooter library charging").toLowerCase().split(' ').filter(w => w.length > 3);
+        knowledgeBase.push({
+          id: "KB-LEARNED-" + Math.floor(10 + Math.random() * 90),
+          dept: "STUDENT_OFFICE",
+          topic: ticket.subject,
+          keywords: keywords,
+          answer: editedReply,
+          crossDept: [ticket.detectedDept],
+          autoReply: true,
+          confidence: 0.95
+        });
+      }
+
+      escalationQueue.splice(idx, 1);
+      renderEscalationQueue();
+      alert(`Email sent to ${ticket.studentEmail}! The answer has been saved to the Central Brain. If any student asks this question again, it will now be 100% automatically answered!`);
+    }
+
+    // Modal Add Entry Controls
+    function openAddEntryModal() {
+      document.getElementById('modal-add-entry').classList.remove('hidden');
+    }
+
+    function closeAddEntryModal() {
+      document.getElementById('modal-add-entry').classList.add('hidden');
+    }
+
+    function saveNewEntry() {
+      const dept = document.getElementById('modal-dept').value;
+      const topic = document.getElementById('modal-topic').value.trim();
+      const answer = document.getElementById('modal-answer').value.trim();
+
+      if (!topic || !answer) {
+        alert("Please provide both a topic and an answer.");
+        return;
+      }
+
+      const newId = "KB-" + dept.substring(0, 2) + "-" + Math.floor(10 + Math.random() * 90);
+      const keywords = topic.toLowerCase().split(' ').filter(w => w.length > 2);
+
+      knowledgeBase.push({
+        id: newId,
+        dept: dept,
+        topic: topic,
+        keywords: keywords,
+        answer: answer,
+        crossDept: [dept.replace("_", " ")],
+        autoReply: true,
+        confidence: 0.92
+      });
+
+      closeAddEntryModal();
+      document.getElementById('modal-topic').value = '';
+      document.getElementById('modal-answer').value = '';
+      renderKnowledgeTable();
+      alert("New policy saved to Central Brain!");
+    }
+
+    // Initial render
+    renderKnowledgeTable();
+  </script>
+</body>
+</html>
